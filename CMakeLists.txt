@@ -15,7 +15,10 @@ link_directories(
         /opt/homebrew/opt/sdl2_ttf/lib
 )
 
-add_executable(pong main.cpp)
+add_executable(pong main.cpp
+        game.cpp
+        game.h
+        game_states/scenes.h)
 
 
 target_link_libraries(pong
