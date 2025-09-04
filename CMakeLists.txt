@@ -18,7 +18,13 @@ link_directories(
 add_executable(pong main.cpp
         game.cpp
         game.h
-        game_states/scenes.h)
+        game_states/scenes.h
+        game_states/menu.cpp
+        game_states/menu.h
+        game_states/pvp.cpp
+        game_states/pvp.h
+        game_states/pvc.cpp
+        game_states/pvc.h)
 
 
 target_link_libraries(pong

@@ -3,6 +3,11 @@
 
 #include <SDL.h>
 
+#include "game_states/menu.h"
+#include "game_states/pvp.h"
+#include "game_states/pvc.h"
+
+
 enum Game_State {
     MENU,
     PVP,
@@ -22,13 +27,20 @@ public:
     void update();
     void render();
 
+    void change_state(Game_State state);
+
     bool is_running() { return running; };
 
 private:
     bool running = false;
     SDL_Window *window;
     SDL_Renderer *renderer;
+    TTF_Font *font;
     Game_State game_state = MENU;
+
+    std::unique_ptr<Menu> menu;
+    std::unique_ptr<Pvp> pvp;
+    std::unique_ptr<Pvc> pvc;
 };
 
 

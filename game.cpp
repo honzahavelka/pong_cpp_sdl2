@@ -12,6 +12,11 @@ void Game::init(const char* title, int width, int height) {
         exit(1);
     }
 
+    if (TTF_Init() != 0) {
+        std::cout << "TTF_Init error: " << TTF_GetError() << std::endl;
+        exit(1);
+    }
+
     window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                 width, height, 0);
     if (!window) {
@@ -25,7 +30,15 @@ void Game::init(const char* title, int width, int height) {
         exit(1);
     }
 
-    std::cout << "Created window and renderer" << std::endl;
+    font = TTF_OpenFont("../assets/roboto-font.ttf", 24);
+    if (!font) {
+        std::cout << "TTF_OpenFont error: " << TTF_GetError() << std::endl;
+    }
+
+    std::cout << "Created window, renderer, font" << std::endl;
+    menu = std::make_unique<Menu>(this);
+    pvp = std::make_unique<Pvp>(this);
+    pvc = std::make_unique<Pvc>(this);
     running = true;
 }
 
@@ -38,8 +51,8 @@ void Game::handle_events() {
 
         switch (game_state) {
             case MENU: menu->handle_events(event); break;
-            /*case PVP: pvp->handle_events(event); break;
-            case PVC: pvc->handle_events(event); break;*/
+            case PVP: pvp->handle_events(event); break;
+            case PVC: pvc->handle_events(event); break;
 
             default:
                 break;
@@ -50,8 +63,8 @@ void Game::handle_events() {
 void Game::update() {
     switch (game_state) {
         case MENU: menu->update(); break;
-        /*case PVP: pvp->update(); break;
-        case PVC: pvc->update(); break;*/
+        case PVP: pvp->update(); break;
+        case PVC: pvc->update(); break;
 
         default:
             break;
@@ -59,15 +72,19 @@ void Game::update() {
 }
 
 void Game::render() {
+    SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
+    SDL_RenderClear(renderer);
+
     switch (game_state) {
-        case MENU: menu->render(); break;
-        /*case PVP: pvp->update(); break;
-        case PVC: pvc->update(); break;*/
+        case MENU: menu->render(renderer, font); break;
+        case PVP: pvp->render(renderer, font); break;
+        case PVC: pvc->render(renderer, font); break;
 
         default:
             break;
     }
 
+    SDL_RenderPresent(renderer);
 }
 
 
@@ -91,6 +108,10 @@ void Game::run() {
             SDL_Delay(frame_delay - frame_time);
         }
     }
+}
+
+void Game::change_state(Game_State state) {
+    game_state = state;
 }
 
 void Game::clean() {
