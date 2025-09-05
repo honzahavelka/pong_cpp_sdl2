@@ -11,7 +11,7 @@ public:
 
     void draw(SDL_Renderer *renderer);
     void move(int direction);
-    SDL_Rect get_paddle_pos();
+    SDL_Rect& get_paddle_pos();
 
 private:
     int y_position;

@@ -6,19 +6,21 @@
 class Ball {
 
 public:
-    Ball(int x, int y);
+    Ball(float x, float y);
     ~Ball();
 
     void draw(SDL_Renderer *renderer);
     void update();
     void invert_y();
     void bounce_from_paddle(SDL_Rect& paddle_position, bool is_left_paddle);
+    void speed_up();
 
+    SDL_Rect &get_ball_position();
 private:
-    SDL_Rect rect;
-    int x_pos, y_pos;
-    int x_vel, y_vel;
-    int speed;
+    SDL_Rect rect {};
+    float x_pos, y_pos;
+    float x_vel, y_vel;
+    float speed;
 };
 
 

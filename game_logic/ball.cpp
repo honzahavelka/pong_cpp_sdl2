@@ -1,12 +1,14 @@
 #include "ball.h"
 
 
-Ball::Ball(int x, int y) {
+Ball::Ball(float x, float y) {
     x_pos = x;
     y_pos = y;
-    x_vel = 3;
-    y_vel = 0;
-    speed = 3;
+    x_vel = 3.0f;
+    y_vel = 0.0f;
+    speed = 3.0f;
+    rect.w = 10;
+    rect.h = 10;
 }
 
 Ball::~Ball() = default;
@@ -14,6 +16,8 @@ Ball::~Ball() = default;
 void Ball::update() {
     x_pos += x_vel;
     y_pos += y_vel;
+    rect.x = static_cast<int>(x_pos - 5.0f);
+    rect.y = static_cast<int>(y_pos - 5.0f);
 }
 
 void Ball::invert_y() {
@@ -23,7 +27,7 @@ void Ball::invert_y() {
 void Ball::bounce_from_paddle(SDL_Rect& paddle_position, bool is_left_paddle) {
     int paddle_center = paddle_position.y + paddle_position.h / 2;
     int difference = y_pos - paddle_center;
-    float normalize = difference / (paddle_position.h / 2);
+    float normalize = static_cast<float>(difference) / (paddle_position.h / 2);
 
     float max_angle = M_PI / 4;
     float angle = normalize * max_angle;
@@ -34,14 +38,17 @@ void Ball::bounce_from_paddle(SDL_Rect& paddle_position, bool is_left_paddle) {
     y_vel = speed * sin(angle);
 }
 
+SDL_Rect &Ball::get_ball_position() {
+    return rect;
+}
+
 
 void Ball::draw(SDL_Renderer *renderer) {
-    rect.x = x_pos - 5;
-    rect.y = y_pos - 5;
-    rect.w = 10;
-    rect.h = 10;
-
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &rect);
+}
+
+void Ball::speed_up() {
+    speed += 1.0f;
 }
 

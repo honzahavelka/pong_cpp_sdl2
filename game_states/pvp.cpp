@@ -3,6 +3,8 @@
 #include <iostream>
 #include <ostream>
 
+#include "../game_logic/collision.h"
+
 Pvp::Pvp(Game *game) {
     this->game = game;
     this->left_paddle = new Paddle(0, true);
@@ -32,9 +34,18 @@ void Pvp::update() {
         right_paddle->move(1);
     }
 
+    if (Collision::hit_wall(ball->get_ball_position(), 0, 480))
+        ball->invert_y();
+    if (Collision::hit_paddle(ball->get_ball_position(), left_paddle->get_paddle_pos())) {
+        ball->speed_up();
+        ball->bounce_from_paddle(left_paddle->get_paddle_pos(), true);
+    }
+    if (Collision::hit_paddle(ball->get_ball_position(), right_paddle->get_paddle_pos())) {
+        ball->speed_up();
+        ball->bounce_from_paddle(right_paddle->get_paddle_pos(), false);
+    }
+
     ball->update();
-
-
 }
 
 void Pvp::render(SDL_Renderer *renderer, TTF_Font *font) {

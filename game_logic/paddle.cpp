@@ -4,7 +4,7 @@
 
 Paddle::Paddle(int side, bool is_player) {
     y_position = 192;
-    speed = 5;
+    speed = 10;
     if (side == 0) {
         paddle_rect = { 0,  y_position,  10, 96};
     }
@@ -31,7 +31,7 @@ void Paddle::draw(SDL_Renderer *renderer) {
     SDL_RenderFillRect(renderer, &paddle_rect);
 }
 
-SDL_Rect Paddle::get_paddle_pos() {
+SDL_Rect& Paddle::get_paddle_pos() {
     return paddle_rect;
 }
 
