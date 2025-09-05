@@ -23,14 +23,14 @@ add_executable(pong main.cpp
         game_states/menu.h
         game_states/pvp.cpp
         game_states/pvp.h
-        game_states/pvc.cpp
-        game_states/pvc.h
         game_logic/paddle.cpp
         game_logic/paddle.h
         game_logic/ball.cpp
         game_logic/ball.h
         game_logic/collision.cpp
-        game_logic/collision.h)
+        game_logic/collision.h
+        game_logic/score.cpp
+        game_logic/score.h)
 
 
 target_link_libraries(pong

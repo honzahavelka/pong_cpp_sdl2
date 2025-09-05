@@ -6,7 +6,18 @@ Ball::Ball(float x, float y) {
     y_pos = y;
     x_vel = 3.0f;
     y_vel = 0.0f;
-    speed = 3.0f;
+    speed = 10.0f;
+    rect.w = 10;
+    rect.h = 10;
+    update();
+}
+
+void Ball::restart(float x, float y) {
+    x_pos = x;
+    y_pos = y;
+    x_vel = 3.0f;
+    y_vel = 0.0f;
+    speed = 10.0f;
     rect.w = 10;
     rect.h = 10;
 }
@@ -26,8 +37,8 @@ void Ball::invert_y() {
 
 void Ball::bounce_from_paddle(SDL_Rect& paddle_position, bool is_left_paddle) {
     int paddle_center = paddle_position.y + paddle_position.h / 2;
-    int difference = y_pos - paddle_center;
-    float normalize = static_cast<float>(difference) / (paddle_position.h / 2);
+    float difference = y_pos - static_cast<float>(paddle_center);
+    float normalize = difference / (static_cast<float>(paddle_position.h) / 2);
 
     float max_angle = M_PI / 4;
     float angle = normalize * max_angle;
@@ -49,6 +60,14 @@ void Ball::draw(SDL_Renderer *renderer) {
 }
 
 void Ball::speed_up() {
-    speed += 1.0f;
+    speed += 0.3f;
+}
+
+float Ball::get_x_velocity() {
+    return x_vel;
+}
+
+float Ball::get_y_velocity() {
+    return y_vel;
 }
 

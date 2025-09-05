@@ -26,6 +26,16 @@ void Paddle::move(int direction) {
     paddle_rect.y = y_position;
 }
 
+void Paddle::auto_move(int y_ball_position) {
+    int y_paddle_position = y_position + paddle_rect.h / 2;
+    if (y_paddle_position > y_ball_position) {
+        move(-1);
+    }
+    else if (y_paddle_position < y_ball_position) {
+        move(1);
+    }
+}
+
 void Paddle::draw(SDL_Renderer *renderer) {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &paddle_rect);
@@ -33,5 +43,14 @@ void Paddle::draw(SDL_Renderer *renderer) {
 
 SDL_Rect& Paddle::get_paddle_pos() {
     return paddle_rect;
+}
+
+void Paddle::reset_paddle() {
+    y_position = 192;
+    paddle_rect.y = y_position;
+}
+
+bool Paddle::is_human() {
+    return is_player;
 }
 

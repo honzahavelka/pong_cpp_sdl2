@@ -5,14 +5,11 @@
 
 #include "game_states/menu.h"
 #include "game_states/pvp.h"
-#include "game_states/pvc.h"
 
 
 enum Game_State {
     MENU,
-    PVP,
-    PVC,
-    END
+    PVP
 };
 
 class Game {
@@ -27,7 +24,7 @@ public:
     void update();
     void render();
 
-    void change_state(Game_State state);
+    void change_state(Game_State state, bool left_is_human, bool right_is_human);
 
     bool is_running() { return running; };
 
@@ -40,9 +37,6 @@ private:
 
     std::unique_ptr<Menu> menu;
     std::unique_ptr<Pvp> pvp;
-    std::unique_ptr<Pvc> pvc;
 };
-
-
 
 #endif //GAME_H

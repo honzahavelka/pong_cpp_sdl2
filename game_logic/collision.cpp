@@ -18,3 +18,19 @@ bool Collision::hit_paddle(SDL_Rect& paddle_position, SDL_Rect& ball_position) {
     }
     return false;
 }
+
+bool Collision::scored_left(SDL_Rect& ball_position, int x_min) {
+    if (ball_position.x <= x_min) {
+        return true;
+    }
+    return false;
+}
+
+bool Collision::scored_right(SDL_Rect& ball_position, int x_max) {
+    if (ball_position.x + 10 >= x_max) {
+        return true;
+    }
+    return false;
+}
+
+

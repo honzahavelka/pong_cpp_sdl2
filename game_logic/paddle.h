@@ -11,7 +11,10 @@ public:
 
     void draw(SDL_Renderer *renderer);
     void move(int direction);
+    void auto_move(int y_ball_position);
     SDL_Rect& get_paddle_pos();
+    void reset_paddle();
+    bool is_human();
 
 private:
     int y_position;

@@ -6,6 +6,7 @@ Menu::Menu(Game* game) {
 
     options.push_back("2 players");
     options.push_back("vs computer");
+    options.push_back("pc vs pc");
 }
 
 Menu::~Menu() = default;
@@ -20,10 +21,13 @@ void Menu::handle_events(SDL_Event& event) {
             break;
             case SDLK_RETURN:
                 if (selected_option == 0) {
-                    game->change_state(PVP);
+                    game->change_state(PVP, true, true);
                 }
                 else if (selected_option == 1) {
-                    game->change_state(PVC);
+                    game->change_state(PVP, false, true);
+                }
+                else if (selected_option == 2) {
+                    game->change_state(PVP, false, false);
                 }
             default: break;
         }

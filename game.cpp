@@ -37,8 +37,6 @@ void Game::init(const char* title, int width, int height) {
 
     std::cout << "Created window, renderer, font" << std::endl;
     menu = std::make_unique<Menu>(this);
-    pvp = std::make_unique<Pvp>(this);
-    pvc = std::make_unique<Pvc>(this);
     running = true;
 }
 
@@ -52,7 +50,6 @@ void Game::handle_events() {
         switch (game_state) {
             case MENU: menu->handle_events(event); break;
             case PVP: pvp->handle_events(event); break;
-            case PVC: pvc->handle_events(event); break;
 
             default:
                 break;
@@ -64,7 +61,6 @@ void Game::update() {
     switch (game_state) {
         case MENU: menu->update(); break;
         case PVP: pvp->update(); break;
-        case PVC: pvc->update(); break;
 
         default:
             break;
@@ -78,7 +74,6 @@ void Game::render() {
     switch (game_state) {
         case MENU: menu->render(renderer, font); break;
         case PVP: pvp->render(renderer, font); break;
-        case PVC: pvc->render(renderer, font); break;
 
         default:
             break;
@@ -110,12 +105,32 @@ void Game::run() {
     }
 }
 
-void Game::change_state(Game_State state) {
+void Game::change_state(Game_State state, bool left_is_human, bool right_is_human) {
+    switch (game_state) {
+        case PVP:
+            pvp.reset();
+            break;
+        default:
+            break;
+    }
+
     game_state = state;
+
+    switch (state) {
+        case MENU:
+            menu = std::make_unique<Menu>(this);
+        break;
+        case PVP:
+            pvp = std::make_unique<Pvp>(this, left_is_human, right_is_human);
+        break;
+        default:
+            break;
+    }
 }
 
 void Game::clean() {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    TTF_Quit();
     SDL_Quit();
 }
