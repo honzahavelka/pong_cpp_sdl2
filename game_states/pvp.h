@@ -2,6 +2,8 @@
 #define PVP_H
 
 #include "scenes.h"
+#include "../game_logic/paddle.h"
+#include "../game_logic/ball.h"
 
 class Game;
 
@@ -16,6 +18,9 @@ public:
 
 private:
     Game* game;
+    Paddle* right_paddle;
+    Paddle* left_paddle;
+    Ball* ball;
 };
 
 
